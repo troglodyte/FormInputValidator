@@ -1,6 +1,5 @@
 
 var FormInputValidation = {
-    message: null,
 
     /** regex */
     ruleRegex: /^(.+?)\[(.+)\]$/,
@@ -19,10 +18,13 @@ var FormInputValidation = {
     urlRegex: /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/,
     dateRegex: /\d{1,2}[-/]\d{1,2}[-/]\d{2,4}/,
 
+
     /** error messages */
     messages: {
         invalid_email: "This is not a valid email address.",
-        invalid_date: "This is not a valid date format, please use mm/dd/(yy)yy."
+        invalid_date: "This is not a valid date format, please use mm/dd/(yy)yy.",
+        invalid_alphanum: "You may only use letters and numbers",
+        invalid_phone: "Not a valid phone number, phone number must be at least 10 digits."
     },
 
     isValidEmail: function(email) {
@@ -33,19 +35,48 @@ var FormInputValidation = {
         return this.validate(this.dateRegex, date, this.messages.invalid_date);
     },
 
-    isValidAlphaNumeric: function(date) {
-        //
+    isValidAlphaNumeric: function(alphanum) {
+        return this.validate(this.alphaNumericRegex, alphanum, this.messages.invalid_alphanum);
+    },
+
+    isValidPhoneNumber: function (phone) {
+        this.reset();
+        if (typeof phone === 'string'){
+            phone = phone.replace(/\D/g,'');
+        }
+        if (phone == '' || phone.length < 10) {
+            this.setMessage(this.messages.invalid_phone);
+            return false;
+        }
+        return true;
     },
 
     validate: function(regex, subject, msg) {
+        if (!this.isEmpty(subject)) return false;
         this.reset();
         var result = regex.test(subject);
-        if (result === false) this.message = msg;
+        if (result === false) this.setMessage(msg);
         return result === true;
     },
 
+    isEmpty: function(subject) {
+        if (typeof subject === 'undefined'
+            || subject === ''
+            || subject === null) {
+            this.setMessage("This field is required");
+            return false;
+        }
+        return true;
+    },
+
     reset: function() {
-        this.message = null;
+        delete this.message;
+    },
+    getMessage: function(){
+        return this.message;
+    },
+    setMessage: function(msg){
+        this.message = msg;
     }
 
 };
