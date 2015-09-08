@@ -1,0 +1,22 @@
+{
+  "name": "FormInputValidator",
+  "version": "0.1.0",
+  "homepage": "https://github.com/troglodyte/FormInputValidator",
+  "authors": [
+    "Michael Harris <mharris@sellervantage.com>"
+  ],
+  "description": "Simple Form Field Validator Object",
+  "main": "FormInputValidation.js",
+  "keywords": [
+    "Validation",
+    "Form"
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}
