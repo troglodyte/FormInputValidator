@@ -5,7 +5,7 @@
   "authors": [
     "Michael Harris <mharris@sellervantage.com>"
   ],
-  "description": "Simple Form Field Validator Object",
+  "description": "Simple Form Field Validation Object",
   "main": "FormInputValidation.js",
   "keywords": [
     "Validation",
