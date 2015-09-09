@@ -1,13 +1,19 @@
 describe('Testing Form Input Validation', function () {
 
     it("can correctly identify an email address", function () {
-        var correct = FormInputValidation.isValidEmail('test@gmail.com');
-        expect(correct).toBe(true);
+        expect(FormInputValidation.isValidEmail('test@gmail.com')).toBe(true);
     });
 
     it("can correctly identify an incorrect email address", function () {
-        var bad = FormInputValidation.isValidEmail("bademailaddress");
-        expect(bad).toBe(false);
+        expect(FormInputValidation.isValidEmail("bademailaddress")).toBe(false);
+    });
+
+    it("can correctly identify an no .___ email address", function () {
+        expect(FormInputValidation.isValidEmail("asdf@asdf")).toBe(false);
+    });
+
+    it("can correctly identify another incorrect email address", function () {
+        expect(FormInputValidation.isValidEmail("asdf@asdf.")).toBe(false);
     });
 
     it("can correctly identify a xx/xx/xxxx date", function () {
