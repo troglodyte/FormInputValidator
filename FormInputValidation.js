@@ -17,6 +17,7 @@ FormInputValidation = {
     urlRegex: /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/,
     dateRegex: /\d{1,2}[-/]\d{1,2}[-/]\d{2,4}/,
     passwordRegex: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,30}$/,
+    expirationDateRegex: /^(1[0-2]|0[1-9]|\d)\/(20\d{2}|19\d{2}|0(?!0)\d|[1-9]\d)$/,
 
 
     /** error messages */
@@ -27,9 +28,20 @@ FormInputValidation = {
         invalid_phone: "Not a valid phone number, phone number must be at least 10 digits."
     },
 
+    // @todo validate first character with valid card formats
+    isValidCreditCard: function(cc) {
+        return cc.length == 16 && this.validate(this.integerRegex, cc);
+    },
+
+
     // typical pw, Upper, lower, number and special character required 8-30 characters long
-    isValidPassword: function(pw) {
-      return this.validate(this.passwordRegex, pw)
+    isValidPassword: function (pw) {
+        return this.validate(this.passwordRegex, pw)
+    },
+
+    // 10/15 or 10/2015
+    isValidExpirationDate: function (date) {
+        return this.validate(this.expirationDateRegex, date)
     },
 
     isValidEmail: function (email) {
@@ -50,9 +62,13 @@ FormInputValidation = {
         return !(phone == '' || phone.length < 10);
     },
 
-    validate: function (regex, subject, msg) {
+    validate: function (regex, subject) {
         if (this.isEmpty(subject)) return false;
         return regex.test(subject) === true;
+    },
+
+    isNotEmpty: function (subject) {
+        return this.isEmpty(subject) === false;
     },
 
     isEmpty: function (subject) {

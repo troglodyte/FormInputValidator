@@ -42,6 +42,22 @@ describe('Testing Form Input Validation', function () {
         expect(FormInputValidation.isEmpty(undefined)).toBe(true);
     });
 
+    it('can catch null', function () {
+        expect(FormInputValidation.isEmpty(null)).toBe(true);
+    });
+
+    it('can catch empty string', function () {
+        expect(FormInputValidation.isEmpty('')).toBe(true);
+    });
+
+    it('can catch is not empty', function(){
+        expect(FormInputValidation.isNotEmpty('1')).toBe(true);
+    });
+
+    it('can catch is not not empty', function(){
+        expect(FormInputValidation.isNotEmpty('')).toBe(false);
+    });
+
     it('can identify a valid password', function () {
         expect(FormInputValidation.isValidPassword('Dilbert1!')).toBe(true);
     });
@@ -68,5 +84,29 @@ describe('Testing Form Input Validation', function () {
 
     it('can invalidate password that is too long', function () {
         expect(FormInputValidation.isValidPassword('Dilbert1!Dilbert1!Dilbert1!sDil')).toBe(false);
+    });
+
+    it('can validate an expiration date', function(){
+        expect(FormInputValidation.isValidExpirationDate('10/18')).toBe(true);
+    });
+
+    it('can validate a long expiration date', function(){
+        expect(FormInputValidation.isValidExpirationDate('10/2018')).toBe(true);
+    });
+
+    it('can invalidate an expiration date', function(){
+        expect(FormInputValidation.isValidExpirationDate('10/8')).toBe(false);
+    });
+
+    it('can identify a valid credit card number', function() {
+        expect(FormInputValidation.isValidCreditCard('1234123412341234')).toBe(true);
+    });
+
+    it('can identify an invalid credit card number', function() {
+        expect(FormInputValidation.isValidCreditCard('234123412341234')).toBe(false);
+    });
+
+    it('can identify a valid credit card number', function() {
+        expect(FormInputValidation.isValidCreditCard('a234123412341234')).toBe(false);
     });
 });
