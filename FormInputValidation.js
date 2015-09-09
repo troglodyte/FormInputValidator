@@ -1,6 +1,5 @@
-
-var FormInputValidation = {
-
+var FormInputValidation;
+FormInputValidation = {
     /** regex */
     ruleRegex: /^(.+?)\[(.+)\]$/,
     numericRegex: /^[0-9]+$/,
@@ -17,6 +16,7 @@ var FormInputValidation = {
     numericDashRegex: /^[\d\-\s]+$/,
     urlRegex: /^((http|https):\/\/(\w+:{0,1}\w*@)?(\S+)|)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?$/,
     dateRegex: /\d{1,2}[-/]\d{1,2}[-/]\d{2,4}/,
+    passwordRegex: /^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$%^&*-]).{8,30}$/,
 
 
     /** error messages */
@@ -27,38 +27,38 @@ var FormInputValidation = {
         invalid_phone: "Not a valid phone number, phone number must be at least 10 digits."
     },
 
-    isValidEmail: function(email) {
+    // typical pw, Upper, lower, number and special character required 8-30 characters long
+    isValidPassword: function(pw) {
+      return this.validate(this.passwordRegex, pw)
+    },
+
+    isValidEmail: function (email) {
         return this.validate(this.emailRegex, email);
     },
 
-    isValidDate: function(date) {
-        // mm-dd-(yy)yy or mm/dd/(yy)yy
+    // mm-dd-(yy)yy or mm/dd/(yy)yy
+    isValidDate: function (date) {
         return this.validate(this.dateRegex, date);
     },
 
-    isValidAlphaNumeric: function(alphanum) {
+    isValidAlphaNumeric: function (alphanum) {
         return this.validate(this.alphaNumericRegex, alphanum);
     },
 
     isValidPhoneNumber: function (phone) {
-        if (typeof phone === 'string')phone = phone.replace(/\D/g,'');
+        if (typeof phone === 'string')phone = phone.replace(/\D/g, '');
         return !(phone == '' || phone.length < 10);
     },
 
-    validate: function(regex, subject, msg) {
-        if (!this.isEmpty(subject)) return false;
-        var result = regex.test(subject);
-        return result === true;
+    validate: function (regex, subject, msg) {
+        if (this.isEmpty(subject)) return false;
+        return regex.test(subject) === true;
     },
 
-    isEmpty: function(subject) {
-        if (typeof subject === 'undefined'
-            || subject === ''
-            || subject === null) {
-            this.setMessage("This field is required");
-            return false;
-        }
-        return true;
-    }
+    isEmpty: function (subject) {
+        return (typeof subject === 'undefined'
+        || subject === ''
+        || subject === null);
 
+    }
 };
