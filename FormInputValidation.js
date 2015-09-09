@@ -28,34 +28,26 @@ var FormInputValidation = {
     },
 
     isValidEmail: function(email) {
-        return this.validate(this.emailRegex, email, this.messages.invalid_email);
+        return this.validate(this.emailRegex, email);
     },
 
     isValidDate: function(date) {
-        return this.validate(this.dateRegex, date, this.messages.invalid_date);
+        // mm-dd-(yy)yy or mm/dd/(yy)yy
+        return this.validate(this.dateRegex, date);
     },
 
     isValidAlphaNumeric: function(alphanum) {
-        return this.validate(this.alphaNumericRegex, alphanum, this.messages.invalid_alphanum);
+        return this.validate(this.alphaNumericRegex, alphanum);
     },
 
     isValidPhoneNumber: function (phone) {
-        this.reset();
-        if (typeof phone === 'string'){
-            phone = phone.replace(/\D/g,'');
-        }
-        if (phone == '' || phone.length < 10) {
-            this.setMessage(this.messages.invalid_phone);
-            return false;
-        }
-        return true;
+        if (typeof phone === 'string')phone = phone.replace(/\D/g,'');
+        return !(phone == '' || phone.length < 10);
     },
 
     validate: function(regex, subject, msg) {
         if (!this.isEmpty(subject)) return false;
-        this.reset();
         var result = regex.test(subject);
-        if (result === false) this.setMessage(msg);
         return result === true;
     },
 
@@ -67,16 +59,6 @@ var FormInputValidation = {
             return false;
         }
         return true;
-    },
-
-    reset: function() {
-        delete this.message;
-    },
-    getMessage: function(){
-        return this.message;
-    },
-    setMessage: function(msg){
-        this.message = msg;
     }
 
 };
